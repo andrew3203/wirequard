@@ -1,14 +1,18 @@
 function revokeClient() {
-	NUMBER_OF_CLIENTS=$(grep -c -E "^### Client" "/etc/wireguard/${SERVER_WG_NIC}.conf")
+	NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/wireguard/${SERVER_WG_NIC}.conf")
 	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
 		echo "You have no existing clients!"
 		exit 1
 	fi
 
-	NUMBER_OF_CLIENTS=$1
+	CLIENT_NUMBER=$1
+	if [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; then
+		echo "${CLIENT_NUMBER} no in (1, ${NUMBER_OF_CLIENTS})"
+		exit 1
+	fi
+	
 
-	# match the selected number to a client name
-	CLIENT_NAME=$(grep -E "^### " "/etc/wireguard/${SERVER_WG_NIC}.conf" | cut -d ' ' -f 3 | sed -n "${CLIENT_NUMBER}"p)
+	CLIENT_NAME="client-${CLIENT_NUMBER}"
     echo CLIENT_NAME
 
 	# remove [Peer] block matching $CLIENT_NAME
