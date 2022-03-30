@@ -6,12 +6,6 @@ if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
 fi
 
 CLIENT_NUMBER=$1
-if [[ ${CLIENT_NUMBER} > ${NUMBER_OF_CLIENTS} ]]; then
-	echo "${CLIENT_NUMBER} no in (1, ${NUMBER_OF_CLIENTS})"
-	exit 1
-fi
-	
-
 CLIENT_NAME="client-${CLIENT_NUMBER}"
 
 # remove [Peer] block matching $CLIENT_NAME
