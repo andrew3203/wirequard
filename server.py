@@ -47,11 +47,11 @@ def add_client():
     request_data = request.get_json()
     if check_user(request_data):
         clients_count = subprocess.call(
-            ["./clientsAmount.sh"], stdin=subprocess.PIPE)
+            ["bash clientsAmount.sh"], stdin=subprocess.PIPE)
         if LIM_CLIENTS <= 1 + clients_count:
             return {'status': 'ok', 'result': 'lim clients exceeded'}
         config_file = subprocess.call(
-            ["./addClient.sh"], stdin=subprocess.PIPE)
+            ["bash addClient.sh"], stdin=subprocess.PIPE)
 
         try:
             with open(config_file, 'r') as f:
@@ -68,7 +68,7 @@ def revoke_client(client_id):
     request_data = request.get_json()
     if check_user(request_data):
         result = subprocess.call(
-            ["./revokeClient.sh", client_id], stdin=subprocess.PIPE)
+            ["bash revokeClient.sh", client_id], stdin=subprocess.PIPE)
         return {'status': 'ok', 'result': result}
     else:
         return {'status': 'token error'}
@@ -80,7 +80,7 @@ def client_data(client_id):
     request_data = request.get_json()
     if check_user(request_data):
         file_info = subprocess.call(
-            ["./clientData.sh", client_id], stdin=subprocess.PIPE)
+            ["bash clientData.sh", client_id], stdin=subprocess.PIPE)
         with open(file_info, 'r') as f:
             res = f.read()
             return {'status': 'ok', 'result': res}
@@ -93,7 +93,7 @@ def clients_amount():
     # TODO
     request_data = request.get_json()
     if check_user(request_data):
-        result = subprocess.call(["./clientsAmount.sh"], stdin=subprocess.PIPE)
+        result = subprocess.call([" bash clientsAmount.sh"], stdin=subprocess.PIPE)
         return {'status': 'ok', 'result': result}
     else:
         return {'status': 'token error'}
