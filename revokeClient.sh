@@ -13,16 +13,16 @@ function revokeClient() {
 	
 
 	CLIENT_NAME="client-${CLIENT_NUMBER}"
-    echo CLIENT_NAME
 
 	# remove [Peer] block matching $CLIENT_NAME
 	sed -i "/^### ${CLIENT_NAME}\$/,/^$/d" "/etc/wireguard/${SERVER_WG_NIC}.conf"
 
 	# remove generated client file
 	rm -f "${HOME}/${SERVER_WG_NIC}-${CLIENT_NAME}.conf"
-
+	
 	# restart wireguard to apply changes
 	wg syncconf "${SERVER_WG_NIC}" <(wg-quick strip "${SERVER_WG_NIC}")
+	echo "${CLIENT_NAME}"
 }
 
 source /etc/wireguard/params
