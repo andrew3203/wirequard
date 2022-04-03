@@ -15,7 +15,7 @@ if os.path.isfile(dotenv_file):
 app = Flask(__name__)
 
 
-LIM_CLIENTS = os.getenv('LIM_CLIENTS', 20)
+LIM_CLIENTS = os.getenv('LIM_CLIENTS', 50)
 
 
 def check_user(request_data):
@@ -49,7 +49,7 @@ def add_client():
         clients_count = subprocess.call(
             ["bash clientsAmount.sh"], stdin=subprocess.PIPE)
         if LIM_CLIENTS <= 1 + clients_count:
-            return {'status': 'ok', 'result': 'lim clients exceeded'}
+            return {'status': 'ok', 'result': f'lim clients ({LIM_CLIENTS}) exceeded'}
         config_file = subprocess.call(
             ["bash addClient.sh"], stdin=subprocess.PIPE)
 
