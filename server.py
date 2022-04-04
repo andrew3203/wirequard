@@ -23,7 +23,7 @@ def check_user(request_data):
         token = request_data.get('token', '')
         with open("tokens.json", "r") as f:
             keys = json.load(f)
-            if keys.get(token, False):
+            if keys.get(token, -1) >= 0:
                 keys[token] += 1
                 with open("tokens.json", "w") as fo:
                     json.dump(keys, fo)
