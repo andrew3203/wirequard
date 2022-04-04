@@ -23,10 +23,13 @@ def check_user(request_data):
         token = request_data.get('token', '')
         with open("tokens.json", "r") as f:
             keys = json.load(f)
+
             if keys.get(token, -1) >= 0:
                 keys[token] += 1
                 with open("tokens.json", "w") as fo:
                     json.dump(keys, fo)
+                return True
+            else:
                 return True
 
     return False
@@ -74,7 +77,7 @@ def revoke_client(client_id):
         return {'status': 'token error'}
 
 
-@app.route("/clientData/<int:client_id>", methods=['GET'])
+@app.route("/client-data/<int:client_id>", methods=['GET'])
 def client_data(client_id):
     # TODO
     request_data = request.get_json()
@@ -88,7 +91,7 @@ def client_data(client_id):
         return {'status': 'token error'}
 
 
-@app.route("/clientsAmount/", methods=['GET'])
+@app.route("/clients-amount/", methods=['GET'])
 def clients_amount():
     # TODO
     request_data = request.get_json()
